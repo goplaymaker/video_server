@@ -1,145 +1,84 @@
-<a name="wIatf"></a>
-## 相关资源连接
-Go 代码（来源网上）：<br />[alanhou / golang-streaming](https://github.com/alanhou/golang-streaming)
+## 流媒体视频网站
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/goplaymaker/video_server)
 
-<a name="wAkSD"></a>
+## Background
 
-## Linux 命令
-我在 windows 中利用 Git Bash 命令行来使用 Linux 命令
-```go
-ps -ef 查看当前运行进程信息
+该项目是 Go 入坑项目，本人为 Java 开发，有意转 Go，在学习了一些基础知识后，打算做个项目练练手。相较于普通的后台管理系统，我更倾向于社区性质的网站。
 
-ps aux | grep xxx 查看 xxx 进程信息
+无意中在 GitHub 上看到了这个项目的雏形，就打算来做一个流媒体视频网站。该网站的最初方案是，仅支持个人的视频上传与下载播放。我打算在之后慢慢完善这个项目，做成一个可供多人分享的视频网站。
 
-kill -9 pid 杀死进程
+![img](https://cdn.nlark.com/yuque/0/2022/png/2788589/1648518259225-a63beaaf-7c67-4080-88a4-f74d69407043.png)
 
-nohup ... 用于后台运行命令（比如我们后台启动一个服务，如果不使用这个命令，那么整个 shell 脚本就会被阻塞）
+
+
+## Install
+
+下载源码
+
+```git
+git clone https://github.com/goplaymaker/video_server.git
 ```
 
-<a name="HJbvt"></a>
-## Go 工具/命令
+
+
+下载依赖
+
 ```go
-go command [arguments]
-
-go build 编译
-go run 编译+运行
-go install 打包
-go get [-u] 下载依赖
-go fmt 格式化
-go test 执行测试文件
-    两种模式：
-    1. test 普通的测试方法
-    2. benchmark 压测，跑多轮，达到稳态停止
+# 使用 go get 命令进行依赖下载
+go get xxx
 ```
-<a name="xHG4r"></a>
-
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1646893085953-48d877de-d5d1-4105-b4e6-18e7c7d1098c.png?x-oss-process=image%2Fresize%2Cw_663%2Climit_0)
 
 
 
-### go install 与 go build
-相同点：
-
-1. 都是用来编译包及其依赖的包，生成一个 .exe 文件
-
-不同点：
-
-1. go install 一般生成静态库文件放在 &GOPATH/pkg 目录下，对于 main 包，则会生成一个 .exe 文件放在 &GOPATH/bin 下。
-1. **go build 不详（TODO），生成 .exe 文件放在当前文件下。**
+修改 sh 文件脚本文件启动，或者本地 Goland 启动。
 
 
 
-<a name="MDuAu"></a>
-## 流媒体点播网站
-Go 是一门网络编程语言<br />包含大部分技能点<br />优良的 native http 库和模板库
+## Usage
 
-前后端解耦
+项目整体框架结构
 
-REST API
+- api：基础的后端处理 API，包括但不限于用户认证、评论等功能
+- bin：经 build.sh 编译后得到的可执行文件
+- scheduler：调度服务，用于延时删除视频文件
+- streamserver：视频流服务，用于视频的上传与下传
+- templates：静态 HTML 及 JS 文件
+- videos：本地保存上传的视频文件（仅视频，无代码）
+- web：前端服务，用于渲染静态 HTML 文件及分发 JS 处理请求至其他服务
 
-API 设计<br />
-
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1646903281414-3b82d336-fa89-4a25-98a2-83a38e6bf632.png?x-oss-process=image%2Fresize%2Cw_937%2Climit_0)
-
-HttpRouter<br />http 库
-
-<a name="ez9TT"></a>
-### API 模块
-<a name="X4Ttj"></a>
-#### 用户
-创建用户：/user POST SC: 201,400,500
-
-用户登录：/user/:username POST SC: 200,400,500
-
-获取用户信息：/user/:username GET 200,400,401,403,500
-
-用户注销：/user/:username DELETE SC: 204,400,401,403,500
-
-<a name="HkYqn"></a>
-#### 用户资源
-List All Videos：/user/:username/videos GET SC:200,400,500
-
-Get one video：/user/:username/videos/:vid-id GET SC: 200,400, 500
-
-Delete one video：/user/:username/videos DELETE SC:204,400,401,403,500
-
-<a name="vT6tX"></a>
-#### 评论
-Show comments：/videos/:vid-id/comments GET 200,400,500
-
-Post a commnet：/videos/:vid-id/comments POST 201,400,500
-
-Delete a comment：/videos/:vid-id/comments/:comment-id POST 204,400,401,403,500
-
-
-handler -> validation -> business logic -> response
-
-<a name="ZGv8b"></a>
-#### 数据库设计
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1646914800317-54c8f8ac-ca25-44c5-8bca-38ddf9d12e88.png?x-oss-process=image%2Fresize%2Cw_937%2Climit_0)
-
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1646914817720-cc44b59b-7285-4fa2-b686-82961b0f0103.png?x-oss-process=image%2Fresize%2Cw_937%2Climit_0)
-
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1646914898969-1a68f532-097f-4967-99d3-5ad43f08bcc0.png?x-oss-process=image%2Fresize%2Cw_937%2Climit_0)
-
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1646914985889-17e69310-0cd2-43ab-b46b-5a7097cd1a40.png?x-oss-process=image%2Fresize%2Cw_937%2Climit_0)
+此外还有：build(prod).sh，deploy.sh 是编译和启动脚本文件，initdb.sql 是数据库脚本文件。
 
 
 
+项目启动步骤：
 
-<a name="nPPrr"></a>
-### Stream
-<a name="VRZ1m"></a>
-#### stream
-ConnLimiter 限流器（goroutine+channel 实现， 测试限制最多两个连接）<br />返回视频流
-
-<a name="jtnnz"></a>
-#### upload
-上传视频文件
+1. 下载项目依赖（go get）
+2. 初始化数据库（initdb.sql）
+3. 编译启动项目（build.sh、deploy.sh）
+4. 访问 localhost:8080
 
 
-<a name="j32yG"></a>
-### Scheduler
-![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1647224241656-23ba1068-3f56-4907-885f-b97f60722aeb.png?x-oss-process=image%2Fresize%2Cw_937%2Climit_0)
 
-流程图：<br />![Task runner.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1647495890007-e5f5e1aa-4e11-4ec7-bec2-4cedba04552c.png)
+## Architecture
 
-<a name="QmoJF"></a>
-## 排查错误
-<a name="L2FDJ"></a>
+项目整体架构
 
-### 记录日志
-场景1：上传文件时，报“ERR_CONNECTION_RESET”。<br />解决：在 goland 编辑器本地启动，查看日志，排查出是代码 proxy 代理的时候出现的错误（代码问题，并不是网上的一些总结经验，由此可见报错时，一定要去看日志排查问题）。
+![img](https://cdn.nlark.com/yuque/0/2022/png/2788589/1648520311918-bb8e0684-c6fe-47ed-9ae8-f5123c6c5860.png)
+
+Scheduler 功能架构
+
+![Task runner.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1647495890007-e5f5e1aa-4e11-4ec7-bec2-4cedba04552c.png)
 
 
-<a name="RTopS"></a>
-## 测试
 
-<a name="IOqPI"></a>
+## Maintainers
 
-## 部署上云
-编译脚本：<br />![image.png](https://cdn.nlark.com/yuque/0/2022/png/2788589/1647911477253-bc72d17f-d749-4106-b44c-308e672ad945.png)
-```go
-nohup 命名：no hang up（不挂起），用于在系统后台不挂断地运行命令，退出终端不会影响程序的运行。
-```
+[@goplaymaker](https://github.com/goplaymaker)
+
+
+
+## Change Log
+
+- 2022年3月29日 10:11:53：增加 README 文档
+- 2022年3月22日 10:20:53：增加网站基础功能（用户认证，视频上传播放、评论等）
 
