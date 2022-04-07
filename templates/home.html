@@ -1,209 +1,169 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-        .topnav {
-            overflow: hidden;
-            background-color: #333;
-        }
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="statics/css/materialize.min.css" media="screen,projection" />
 
-        .topnav a {
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        .topnav a:hover {
-            background-color: #ddd;
-        }
+    <!-- Import alibaba iconfont css-->
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_3309256_zyosr735gj.css">
+    
+    <!-- Import JQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Import materialize.js -->
+    <script type="text/javascript" src="statics/js/materialize.min.js"></script>
 
-        .topnav a.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .topic-back {
-            text-align: center;
-            background-color: #66ffff;
-        }
-
-        #main-back {
-            background-color: #66ffff;
-        }
-
-        #title {
-            font-size: 60px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        /* Add padding to containers */
-        .container {
-            padding: 16px;
-            background-color: white;
-        }
-
-        /* Full-width input fields */
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 15px;
-            margin: 5px 0 22px 0;
-            display: inline-block;
-            border: none;
-            background: #f1f1f1;
-        }
-
-        input[type=text]:focus, input[type=password]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-
-        /* Overwrite default styles of hr */
-        hr {
-            border: 1px solid #f1f1f1;
-            margin-bottom: 25px;
-        }
-
-        /* Set a style for the submit button */
-        .registerbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            opacity: 0.9;
-            font-size: 20px;
-        }
-
-        .registerbtn:hover {
-            opacity: 1;
-        }
-
-        #snackbar {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-
-        #snackbar.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-
-        #errorbar {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: red;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 10px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-
-        #errorbar.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-
-        /* Add a blue text color to links */
-    </style>
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous">
-    </script>
     <script type="text/javascript" src="statics/scripts/home.js"></script>
     <title>Login Page</title>
 </head>
-<body id="main-back">
 
-<div class="topnav">
-    <a class="active" href="#home">Home</a>
-    <a href="#news">{{.Name}}</a>
-    <a href="#about">About</a>
-    <a href="#" id="upload" data-rel="popup">Upload</a>
-    <a id="logout" href="/">Logout</a>
-</div>
+<body>
+    <header>
+        <!-- 导航栏 -->
+        <nav>
+            <div class="nav-wrapper teal lighten-1">
+                <div class="container">
+                    <a href="#" class="brand-logo"><i class="iconfont icon-shipin1" style="font-size: 20px;"></i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="#">Word</a></li>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Upload</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<div class="topic-back" style="padding-left: 16px">
-    <h2 id="title">Welcome to Movie Dash</h2>
-</div>
+    <main>
+        <!-- 主体内容 -->
+        <!-- 视差, 仅仅用来好看 qaq -->
+        <div class="parallax-container">
+            <div class="parallax"><img src="statics/img/wallhaven-v9v3r5.jpg"></div>
+        </div>
 
-<form method="post" id="signinsubmit" action="/userhome" style="
-    width: 500px; margin: 0 auto;">
-    <div class="container">
-        <h1>Sign In</h1>
-        <hr>
+        <div class="container">
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs blue-text text-darken-2">
+                        <li class="tab col s5"><a class="active" href="#login">Sign In</a></li>
+                        <li class="tab col s5"><a href="#registry">Register</a></li>
+                    </ul>
+                </div>
 
-        <label for="susername"><b>User name</b></label>
-        <input id="susername" type="text" placeholder="Enter user name" name="username" required>
+                <div id="login" class="col s12 z-depth-3">
+                    <!-- 登录表单 -->
+                    <div class="section white">
+                        <blockquote>
+                            <p class="grey-text text-darken-3 lighten-3">目前仅支持账号密码登录</p>
+                        </blockquote>
+                        <div class="row">
+                            <form class="col s12" id="signinsubmit" method="post" action="/userhome">
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input placeholder="帅气的名称" id="susername" type="text" class="validate">
+                                        <label for="susername">用户名</label>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <i class="material-icons prefix">input</i>
+                                        <input placeholder="奇怪的密码" id="spwd" type="password" class="validate">
+                                        <label for="spwd">密码</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input disabled value="暂不支持" id="disabled" type="text" class="validate">
+                                        <label for="disabled">手机号</label>
+                                    </div>
+                                </div>
+                                <button id="signinbtn" class="btn waves-effect waves-light" type="submit"
+                                    name="action">提交
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-        <label for="spwd"><b>Password</b></label>
-        <input id="spwd" type="password" placeholder="Enter Password" name="pwd" required>
+                <div id="registry" class="col s12 z-depth-3">
+                    <!-- 注册表单 -->
+                    <div class="section white">
+                        <blockquote>
+                            <p class="grey-text text-darken-3 lighten-3">目前仅支持账号密码注册</p>
+                        </blockquote>
+                        <div class="row">
+                            <form class="col s12" id="regsubmit" method="post" action="/userhome">
+                                <div class="row">
+                                    <div class="input-field col s6">
+                                        <i class="material-icons prefix">account_circle</i>
+                                        <input id="username" type="text" class="validate">
+                                        <label for="username">用户名</label>
+                                    </div>
+                                    <div class="input-field col s6">
+                                        <i class="material-icons prefix">input</i>
+                                        <input id="pwd" type="password" class="validate">
+                                        <label for="pwd">密码</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="input-field col s12">
+                                        <input disabled value="暂不支持" id="disabled" type="text" class="validate">
+                                        <label for="disabled">手机号</label>
+                                    </div>
+                                </div>
+                                <button id="regbtn" class="btn waves-effect waves-light" type="submit"
+                                    name="action">提交
+                                    <i class="material-icons right">send</i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
-        <hr>
-        <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-        <button id="signinbtn" type="submit" class="registerbtn">Sign In</button>
-    </div>
+            </div>
+        </div>
 
-    <div class="container signin">
-        <p>Don't have an account? <a id="registerhref" href="#">Register</a>.</p>
-    </div>
-</form>
+        <!-- 页脚 -->
+        <footer class="page-footer teal lighten-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">流视频网站</h5>
+                        <p class="grey-text text-lighten-4">一个分享交流视频的站点, 欢迎加入我们</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">链接</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="#!">GitHub</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">链接 2</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">链接 3</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">链接 4</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2022 Video Server, All rights reserved.
+                </div>
+            </div>
+        </footer>
 
-<div id="snackbar">Comment submission succeeded</div>
-<div id="errorbar">Error happened</div>
+        <!--Import jQuery before materialize.js-->
 
-<form method="post" id="regsubmit" action="/userhome" style="
-    width: 500px; margin: 0 auto; display: none">
-    <div class="container">
-        <h1>Register</h1>
-        <hr>
-
-        <label for="username"><b>User name</b></label>
-        <input id="username" type="text" placeholder="Enter user name" name="username" required>
-
-        <label for="pwd"><b>Password</b></label>
-        <input id="pwd" type="password" placeholder="Enter Password" name="pwd" required>
-
-        <hr>
-        <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-        <button id="regbtn" type="submit" class="registerbtn">Register</button>
-    </div>
-    <div class="container signin">
-        <p>Already have an account? <a id="signinhref" href="#">Sign in</a>.</p>
-    </div>
-</form>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.parallax').parallax();
+            });
+        </script>
+    </main>
 </body>
+
 </html>
