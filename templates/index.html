@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="statics/css/materialize.min.css" media="screen,projection" />
+    <link type="text/css" rel="stylesheet" href="/statics/css/materialize.min.css" media="screen,projection" />
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -16,9 +16,9 @@
     <!-- Import JQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <!-- Import materialize.js -->
-    <script type="text/javascript" src="statics/js/materialize.min.js"></script>
+    <script type="text/javascript" src="/statics/js/materialize.min.js"></script>
 
-    <script type="text/javascript" src="statics/scripts/home.js"></script>
+    <script type="text/javascript" src="/statics/scripts/home.js"></script>
     <title>Login Page</title>
 </head>
 
@@ -28,10 +28,10 @@
         <nav>
             <div class="nav-wrapper teal lighten-1">
                 <div class="container">
-                    <a href="#" class="brand-logo"><i class="iconfont icon-shipin1" style="font-size: 20px;"></i></a>
+                    <a href="/" class="brand-logo"><i class="iconfont icon-shipin1" style="font-size: 20px;"></i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li><a href="#">Word</a></li>
-                        <li><a href="#">Home</a></li>
+                        <li><a href="#">World</a></li>
+                        <li><a href="#home">Home</a></li>
                         <li><a href="#">Upload</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Logout</a></li>
@@ -136,12 +136,12 @@
                 <div class="row">
                     <div class="col l6 s12">
                         <h5 class="white-text">流视频网站</h5>
-                        <p class="grey-text text-lighten-4">一个分享交流视频的站点, 欢迎加入我们</p>
+                        <p class="grey-text text-lighten-4">分享交流视频, 坚持做你自己</p>
                     </div>
                     <div class="col l4 offset-l2 s12">
                         <h5 class="white-text">链接</h5>
                         <ul>
-                            <li><a class="grey-text text-lighten-3" href="#!">GitHub</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://github.com/goplaymaker/video_server">GitHub</a></li>
                             <li><a class="grey-text text-lighten-3" href="#!">链接 2</a></li>
                             <li><a class="grey-text text-lighten-3" href="#!">链接 3</a></li>
                             <li><a class="grey-text text-lighten-3" href="#!">链接 4</a></li>
@@ -156,10 +156,9 @@
             </div>
         </footer>
 
-        <!--Import jQuery before materialize.js-->
-
         <script type="text/javascript">
             $(document).ready(function () {
+                // 初始化"视差"组件
                 $('.parallax').parallax();
             });
         </script>

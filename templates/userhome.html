@@ -1,305 +1,217 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-03-16 09:45:34
+ * @LastEditTime: 2022-04-11 17:59:39
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \video_server\templates\userhome.html
+-->
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="/statics/css/materialize.min.css" media="screen,projection" />
 
-        .topnav {
-            overflow: hidden;
-            background-color: #333;
-        }
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        .topnav a {
-            float: left;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-            font-size: 17px;
-        }
+    <!-- Import alibaba iconfont css-->
+    <link rel="stylesheet" href="http://at.alicdn.com/t/font_3309256_zyosr735gj.css">
 
-        .topnav a:hover {
-            background-color: #ddd;
-            color: black;
-        }
+    <!-- Import JQuery -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- Import materialize.js -->
+    <script type="text/javascript" src="/statics/js/materialize.min.js"></script>
 
-        .topnav a.active {
-            background-color: #4CAF50;
-            color: white;
-        }
+    <script type="text/javascript" src="/statics/scripts/home.js"></script>
 
-        .topic-back {
-            text-align: center;
-            background-color: #F1F1F1;
-        }
-
-        #main-back {
-            background-color: #F1F1F1;
-        }
-
-        #title {
-            font-size: 60px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        /* Add padding to containers */
-        .container {
-            padding: 16px;
-            background-color: white;
-        }
-
-        /* Full-width input fields */
-        input[type=text], input[type=password] {
-            width: 100%;
-            padding: 15px;
-            margin: 5px 0 22px 0;
-            display: inline-block;
-            border: none;
-            background: #f1f1f1;
-        }
-
-        input[type=text]:focus, input[type=password]:focus {
-            background-color: #ddd;
-            outline: none;
-        }
-
-        /* Overwrite default styles of hr */
-        hr {
-            border: 1px solid #f1f1f1;
-            margin-bottom: 25px;
-        }
-
-        /* Set a style for the submit button */
-        .registerbtn {
-            background-color: #4CAF50;
-            color: white;
-            padding: 16px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            opacity: 0.9;
-            font-size: 20px;
-        }
-
-        .registerbtn:hover {
-            opacity: 1;
-        }
-
-        /* Add a blue text color to links */
-        a {
-            color: dodgerblue;
-        }
-
-        /* Set a grey background color and center the text of the "sign in" section */
-        .signin {
-            background-color: #f1f1f1;
-            text-align: center;
-        }
-
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0); /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-        }
-
-        .modal-content {
-            position: relative;
-            text-align: center;
-            background-color: #fefefe;
-            margin: auto;
-            padding: 0;
-            border: 1px solid #888;
-            width: 40%;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            -webkit-animation-name: animatetop;
-            -webkit-animation-duration: 0.4s;
-            animation-name: animatetop;
-            animation-duration: 0.4s
-        }
-
-        .modal-header {
-            padding: 2px 16px;
-            background-color: #5cb85c;
-            color: white;
-        }
-
-        .modal-body {
-            padding: 2px 16px;
-        }
-
-        .modal-footer {
-            padding: 2px 16px;
-            background-color: #5cb85c;
-            color: white;
-        }
-
-        .video-thumbnail-list {
-            display: inline;
-            padding-left: 80px;
-        }
-
-        .whole {
-            display: flex;
-            padding-left: 120px;
-        }
-
-        #comments {
-            padding-top: 20px;
-        }
-
-        .comment-author {
-            font-size: 12px;
-            color: grey;
-        }
-
-        .comment-ctime {
-            font-size: 12px;
-            color: gray;
-        }
-
-        .comment {
-            font-size: 15px;
-            color: black;
-        }
-
-        #comments-total {
-            font-size: 18px;
-            color: black;
-            line-height: 3;
-        }
-
-        #curr-video-name {
-            font-size: 18px;
-            padding-top: 10px;
-            line-height: 20px;
-        }
-
-        #curr-video-ctime {
-            font-size: 10px;
-            color: gray;
-        }
-
-        #snackbar {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 16px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-
-        #snackbar.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-
-        #errorbar {
-            visibility: hidden;
-            min-width: 250px;
-            margin-left: -125px;
-            background-color: red;
-            color: #fff;
-            text-align: center;
-            border-radius: 2px;
-            padding: 10px;
-            position: fixed;
-            z-index: 1;
-            left: 50%;
-            bottom: 30px;
-            font-size: 17px;
-        }
-
-        #errorbar.show {
-            visibility: visible;
-            -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-            animation: fadein 0.5s, fadeout 0.5s 2.5s;
-        }
-    </style>
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous">
-    </script>
-    <script type="text/javascript" src="statics/scripts/home.js"></script>
     <title>Movie Dash</title>
 </head>
-<body id="main-back">
 
-<div class="topnav">
-    <a class="active" href="#home">Home</a>
-    <a href="#news">{{.Name}}</a>
-    <a href="#about">About</a>
-    <a href="#" id="upload" data-rel="popup">Upload</a>
-    <a id="logout" href="/">Logout</a>
-</div>
+<body>
+    <header>
+        <!-- 导航栏 -->
+        <nav>
+            <div class="nav-wrapper teal lighten-1">
+                <div class="container">
+                    <a href="/" class="brand-logo"><i class="iconfont icon-shipin1" style="font-size: 20px;"></i></a>
+                    <ul id="nav-mobile" class="right hide-on-med-and-down">
+                        <li><a href="#">World</a></li>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#uploadvideomodal">Upload</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="/" id="logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-<div class="topic-back" style="padding-left: 16px">
-    <h2 id="title">Welcome to Movie Dash</h2>
-</div>
+    <main>
+        <div class="container" style="margin-top: 20px;">
+            <div class="row">
+                <!-- 1-左半区 -->
+                <div class="col s12 m9">
+                    <!-- 视频信息 -->
+                    <div class="row">
+                        <div class="col s12 z-depth-5 black">
+                            <div class="slider">
+                                <ul class="slides black" style="margin-top: 10px;">
+                                    <li>
+                                        <!-- <video id="curr-video" controls preload="auto"></video> -->
+                                        <video id="curr-video" width="100%" height="100%"
+                                            controls preload="auto">
+                                        </video>
+                                        <!-- <img src="/statics/img/wallhaven-v9v3r5.jpg"> -->
+                                        <!-- <div class="caption center-align">
+                                        <h3>这是一个巨大的标签行</h3>
+                                        <h5 class="light grey-text text-lighten-3">这是我们的小口号。</h5>
+                                    </div> -->
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="whole">
-    <div id="play-box">
-        <video id="curr-video" width="660" height="440" controls preload="auto" border="5"></video>
-        <div id="curr-video-name"></div>
-        <div id="curr-video-ctime"></div>
-        <div id="snackbar">Comment submission succeeded</div>
-        <div id="errorbar">Error happened</div>
-        <div id="comments">
-            <textarea id="comments-input" name="mesage" rows="5" cols="90" \
-                      placeholder="Input your comment"></textarea>
-            <input id="submit-comment" type="submit">
-            <hr size="1" style="border-color: #EDE3E1;">
-            <div id="comments-total">0 Comments</div>
-            <div id="comments-history"></div>
-        </div>
-    </div>
-    <div id="items" class="video-thumbnail-list"></div>
-</div>
-<div id="uploadvideomodal" class="modal">
+                    <!-- 标签信息 -->
+                    <div class="row">
+                        <div class="col s12">
+                            <div class="chip">
+                                <img src="/statics/img/wallhaven-6ozkzl.jpg" alt="Contact Person">
+                                <span id="video-owner">goplaymaker</span>
+                            </div>
+                            <div class="chip" id="curr-video-ctime">
+                                2022年4月11日10:40:51
+                            </div>
+                            <div class="chip">
+                                待扩展其他标签
+                            </div>
+                        </div>
+                    </div>
 
-    <!--Modal content-->
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="close">&times;</span>
-            <h2>Model Header</h2>
+                    <!-- 评论信息 -->
+                    <div class="row">
+                        <div class="col s12 z-depth-5">
+                            <div class="row">
+                                <div class="col s9">
+                                    <blockquote class="flow-text">Comments <span id="comments-total"
+                                            style="font-size: 18px;">200+</span>
+                                    </blockquote>
+                                </div>
+                            </div>
+                            <div class="row" style="height: 120px;">
+                                <div class="col s9">
+                                    <div class="row">
+                                        <div class="col s9">
+                                            <div class="row">
+                                                <div class="input-field col s12">
+                                                    <textarea id="comments-input" class="materialize-textarea"
+                                                        length="50" placeholder="发一条友善的评论"></textarea>
+                                                    <label for="comments-input">Input</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col s2" style="padding-top: 22px;">
+                                            <button id="submit-comment" type="submit"
+                                                class="waves-effect waves-light btn-large">
+                                                Post
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s9">
+                                    <div id="comments-history"></div>
+                                    <!-- 
+                            <div>
+                                <strong style="font-size: 16px;">goplaymaker</strong> <span class="gray"
+                                    style="font-size: 13px;">2022年4月11日11:42:13</span>
+                                <div class="card-panel black">
+                                    <span class="grey-text">
+                                        这是一条测试评论，无与伦比的评论。
+                                    </span>
+                                </div>
+                            </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2-右半区 -->
+                <!-- 当前用户下所有视频缩略信息 -->
+                <div class="col m3">
+                    <ul class="collapsible popout" data-collapsible="accordion" id="items">
+                        <!-- <li>
+                            <div class="collapsible-header active">
+                                <div class="chip">
+                                    goplaymaker 的视频1
+                                </div>
+                            </div>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="modal-body">
-            <form id="uploadform" action="http://127.0.0.1:9000/upload/alan"
-                  method="post" enctype="multipart/form-data" class="uploadform">
-                <input class="uploadform__input" type="file" name="file"
-                       id="inputFile" accept="video/*">
-                <input type="text" id="vname" name="video name">
-                <input type="submit" id="upload-submit" name="submit" value="Submit">
-            </form>
+
+        <!-- 视频上传模态框 -->
+        <div id="uploadvideomodal" class="modal">
+            <div class="modal-content">
+                <h4>视频上传</h4>
+                <p>当前站点能力有限,请勿上传超过 50 MB视频文件</p>
+                <form id="uploadform" action="http://127.0.0.1:9000/upload/alan" method="post"
+                    enctype="multipart/form-data" class="uploadform">
+
+                    <div class="file-field input-field">
+                        <div class="btn">
+                            <span>选择文件</span>
+                            <input type="file" id="inputFile" name="file" accept="video/*">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text">
+                        </div>
+                    </div>
+
+                    <input type="text" id="vname" name="video name" placeholder="若未输入文件名,则生成默认规则名称">
+                    <input class="waves-effect waves-light btn" type="submit" id="upload-submit" name="submit"
+                        value="提交">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+            </div>
         </div>
-        <div class="modal-footer">
-            <h3>Modal Footer</h3>
-        </div>
-    </div>
-</div>
+
+        <!-- 页脚 -->
+        <footer class="page-footer teal lighten-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="white-text">流视频网站</h5>
+                        <p class="grey-text text-lighten-4">分享交流视频, 坚持做你自己</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">链接</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3"
+                                    href="https://github.com/goplaymaker/video_server">GitHub</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">链接 2</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">链接 3</a></li>
+                            <li><a class="grey-text text-lighten-3" href="#!">链接 4</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2022 Video Server, All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </main>
+
 </body>
+
 </html>

@@ -29,7 +29,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	if err1 != nil || err2 != nil {
 		p := &HomePage{Name: "Uname"}
 		// 加载模板文件
-		t, e := template.ParseFiles("./templates/home.html")
+		t, e := template.ParseFiles("./templates/index.html")
 		if e != nil {
 			log.Printf("Parsing template home.html error: %s", e)
 			return

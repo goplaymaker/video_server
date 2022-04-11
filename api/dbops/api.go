@@ -164,7 +164,7 @@ func AddNewComments(vid string, aid int, content string) error {
 }
 
 func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
-	stmtOut, err := dbConn.Prepare(`SELECT comments.id, users.login_name, comments.content FROM comments
+	stmtOut, err := dbConn.Prepare(`SELECT comments.id, users.login_name, comments.content, comments.time FROM comments
 		INNER JOIN users ON comments.author_id = users.id
 		WHERE comments.video_id = ? AND comments.time > FROM_UNIXTIME(?) AND comments.time <= FROM_UNIXTIME(?)
 		ORDER BY comments.time DESC`)
@@ -177,12 +177,12 @@ func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
 	}
 
 	for rows.Next() {
-		var id, name, content string
-		if err := rows.Scan(&id, &name, &content); err != nil {
+		var id, name, content, time string
+		if err := rows.Scan(&id, &name, &content, &time); err != nil {
 			return res, err
 		}
 
-		c := &defs.Comment{Id: id, VideoId: vid, Author: name, Content: content}
+		c := &defs.Comment{Id: id, VideoId: vid, Author: name, Content: content, Time: time}
 		res = append(res, c)
 	}
 
@@ -192,7 +192,7 @@ func ListComments(vid string, from, to int) ([]*defs.Comment, error) {
 }
 
 func ListVideoInfo(uname string, from, to int) ([]*defs.VideoInfo, error) {
-	stmtOut, err := dbConn.Prepare(`SELECT video_info.id, video_info.author_id, video_info.name, video_info.display_ctime FROM video_info
+	stmtOut, err := dbConn.Prepare(`SELECT video_info.id, video_info.author_id, video_info.name, video_info.display_ctime, users.login_name AS author FROM video_info
 		INNER JOIN users ON video_info.author_id = users.id
 		WHERE users.login_name=? AND video_info.create_time > FROM_UNIXTIME(?) AND video_info.create_time<=FROM_UNIXTIME(?)
 		ORDER BY video_info.create_time DESC`)
@@ -207,12 +207,12 @@ func ListVideoInfo(uname string, from, to int) ([]*defs.VideoInfo, error) {
 	}
 
 	for rows.Next() {
-		var id, name, ctime string
+		var id, name, ctime, author string
 		var aid int
-		if err := rows.Scan(&id, &aid, &name, &ctime); err != nil {
+		if err := rows.Scan(&id, &aid, &name, &ctime, &author); err != nil {
 			return res, err
 		}
-		vi := &defs.VideoInfo{Id: id, AuthorId: aid, Name: name, DisplayCtime: ctime}
+		vi := &defs.VideoInfo{Id: id, AuthorId: aid, Name: name, DisplayCtime: ctime, Author: author}
 		res = append(res, vi)
 	}
 	defer stmtOut.Close()

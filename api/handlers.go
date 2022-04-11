@@ -111,6 +111,10 @@ func AddNewVideo(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		sendErrorResponse(w, defs.ErrorRequestBodyParseFailed)
 		return
 	}
+	if len(nvbody.Name) == 0 {
+		uuid_str, _ := utils.NewUUID()
+		nvbody.Name = uuid_str[0:18]
+	}
 
 	vi, err := dbops.AddNewVideo(nvbody.AuthorId, nvbody.Name)
 	log.Printf("Author id : %d, name: %s \n", nvbody.AuthorId, nvbody.Name)

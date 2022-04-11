@@ -53,6 +53,7 @@ type User struct {
 
 type VideoInfo struct {
 	Id           string `json:"id"`
+	Author       string `json:"author"`
 	AuthorId     int    `json:"author_id"`
 	Name         string `json:"name"`
 	DisplayCtime string `json:"display_ctime"`
@@ -63,6 +64,7 @@ type Comment struct {
 	VideoId string `json:"video_id"`
 	Author  string `json:"author"`
 	Content string `json:"content"`
+	Time    string `json:"time"`
 }
 
 type SimpleSession struct {

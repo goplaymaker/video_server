@@ -1,4 +1,44 @@
 $(document).ready(function () {
+    // ### 初始化 materializecss 组件 ###
+    $('.tooltipped').tooltip({delay: 50});
+    // $('.carousel').carousel();
+    $('.carousel.carousel-slider').carousel({ full_width: true });
+
+    // 初始化轮播组件
+    $(document).ready(function () {
+        // $('.slider').slider({ full_width: true });
+        $('.slider').slider({ full_width: true, indicators: false });
+    });
+
+    // 初始化折叠组件
+    // $('.collapsible').collapsible();
+    $('.collapsible').collapsible({
+        accordion: false,
+        onOpen: function (el) {
+            // 获取视频 ID
+            let obj = $(el[0]).children("div")[0];
+            let vid = $(obj).attr('id');
+            console.log(vid);
+            
+            // 获取当前视频序号, 并设置当前视频
+            let index = $(el[0]).attr("index");
+            // console.log(index);
+            currentVideo = listedVideos[index]
+
+            // 当 open 视频折叠页后, 去查询视频详细信息
+            selectVideo(vid);
+         }, // 回调当开启开启时
+        onClose: function (el) { 
+
+         } // 回调当关闭时
+    }
+    );
+
+    // 初始化字符计数器
+    $('input#input_text, textarea#textarea1').characterCounter();
+
+    // 初始化模态
+    $('.modal').modal();
 
     DEFAULT_COOKIE_EXPIRE_TIME = 30;
 
@@ -33,15 +73,15 @@ $(document).ready(function () {
             var id = this.id.substring(4);
             deleteVideo(id, function (res, err) {
                 if (err !== null) {
-                    //window.alert("encounter an error when try to delete video: " + id);
-                    popupErrorMsg("encounter an error when try to delete video: " + id);
+                    Materialize.toast('Failed to delete video resource', 3000, 'rounded')
                     return;
                 }
                 console.log("del-video-button callback, vid = ", id)
                 // 发送一个请求给 scheduler 插入当前 vid 至 video_del_rec 表(等待 scheduler 后续删除)
                 addVideoDelRec(id)
 
-                popupNotificationMsg("Successfully deleted video: " + id)
+                var msg = "Successfully deleted video: " + id;
+                Materialize.toast(msg, 3000, 'rounded')
                 location.reload();
             });
         });
@@ -50,12 +90,13 @@ $(document).ready(function () {
             var content = $("#comments-input").val();
             postComment(currentVideo['id'], content, function (res, err) {
                 if (err !== null) {
-                    popupErrorMsg("encounter and error when try to post a comment: " + content);
+                    Materialize.toast('Failed to submit comments', 3000, 'rounded')
                     return;
                 }
 
                 if (res === "ok") {
-                    popupNotificationMsg("New comment posted")
+                    var msg = "New comment posted";
+                    Materialize.toast(msg, 3000, 'rounded')
                     $("#comments-input").val("");
 
                     refreshComments(currentVideo['id']);
@@ -71,7 +112,7 @@ $(document).ready(function () {
         registerUser(function (res, err) {
             if (err != null) {
                 $('#regbtn').text("Register")
-                popupErrorMsg('encounter an error, pls check your username or pwd');
+                Materialize.toast('Invalid/duplicate username', 3000, 'rounded')
                 return;
             }
 
@@ -89,8 +130,7 @@ $(document).ready(function () {
         signinUser(function (res, err) {
             if (err != null) {
                 $('#signinbtn').text("Sign In");
-                //window.alert('encounter an error, pls check your username or pwd')
-                popupErrorMsg('encounter an error, pls check your username or pwd');
+                Materialize.toast('Invalid username or pwd', 3000, 'rounded')
                 return;
             }
 
@@ -113,8 +153,8 @@ $(document).ready(function () {
 
     // userhome event register
     $("#upload").on('click', function () {
+        Materialize.toast('Upload click', 3000, 'rounded')
         $("#uploadvideomodal").show();
-
     });
 
 
@@ -124,8 +164,7 @@ $(document).ready(function () {
 
         createVideo(vname, function (res, err) {
             if (err != null) {
-                //window.alert('encounter an error when try to create video');
-                popupErrorMsg('encounter an error when try to create video');
+                Materialize.toast('Failed to upload video', 3000, 'rounded')
                 return;
             }
 
@@ -142,19 +181,18 @@ $(document).ready(function () {
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,  // tell jQuery not to set contentType
                 success: function (data) {
-                    console.log(data);
-                    $('#uploadvideomodal').hide();
+                    // console.log(data);
+                    // $('#uploadvideomodal').hide();
                     location.reload();
-                    //window.alert("hoa");
                 },
                 complete: function (xhr, textStatus) {
                     if (xhr.status === 204) {
-                        window.alert("finish")
+                        Materialize.toast('Video upload completed', 3000, 'rounded')
                         return;
                     }
                     if (xhr.status === 400) {
-                        $("#uploadvideomodal").hide();
-                        popupErrorMsg('file is too big');
+                        // $("#uploadvideomodal").hide();
+                        Materialize.toast('File is too big', 3000, 'rounded')
                         return;
                     }
                 }
@@ -184,27 +222,32 @@ $(document).ready(function () {
 function initPage(callback) {
     getUserId(function (res, err) {
         var url = window.location.href;
-        // console.log("url = " + url)
-        // console.log("url type = " + typeof url)
         // TODO: 暂时只有两个页面，userhome 页面需要检查用户信息，登录/注册页无需
         if (err != null && url.indexOf("userhome") !== -1) {
-            window.alert("Encountered error when loading user id");
+            Materialize.toast('You must sign in to access this site', 3000, 'rounded')
             return;
         }
 
         var obj = JSON.parse(res);
         uid = obj['id'];
-        //window.alert(obj['id']);
         listAllVideos(function (res, err) {
             if (err != null) {
-                //window.alert('encounter an error, pls check your username or pwd');
-                popupErrorMsg('encounter an error, pls check your username or pwd');
+                Materialize.toast('Failed to obtain video resources', 3000, 'rounded')
                 return;
             }
             var obj = JSON.parse(res);
             listedVideos = obj['videos'];
             obj['videos'].forEach(function (item, index) {
-                var ele = htmlVideoListElement(item['id'], item['name'], item['display_ctime']);
+                var ele = `<li class="${index === 0 ? 'active' : ''}" index="${index}">
+                            <div class="collapsible-header" id="${item['id']}">
+                                <div class="chip">
+                                    ${item['name']}
+                                </div>
+                            </div>
+                        </li>`
+                // if (index === 0) {
+                //     console.log(ele)
+                // }
                 $("#items").append(ele);
             });
             callback();
@@ -237,124 +280,42 @@ function getCookie(cname) {
 // DOM operations
 function selectVideo(vid) {
     var url = 'http://' + window.location.hostname + ':8080/videos/' + vid
-    var video = $("#curr-video");
+    // var video = $("#curr-video");
     $("#curr-video:first-child").attr('src', url);
     $("#curr-video-name").text(currentVideo['name']);
-    $("#curr-video-ctime").text('Uploaded at: ' + currentVideo['display_ctime']);
-    //currentVideoId = vid;
+    $("#curr-video-ctime").text(currentVideo['display_ctime']);
+    $("#video-owner").text(currentVideo['author']);
     refreshComments(vid);
 }
 
 function refreshComments(vid) {
     listAllComments(vid, function (res, err) {
         if (err !== null) {
-            //window.alert("encounter an error when loading comments");
-            popupErrorMsg('encounter an error when loading comments');
-            return
+            Materialize.toast('Failed to get comment resources', 3000, 'rounded');
+            return;
         }
 
         var obj = JSON.parse(res);
         $("#comments-history").empty();
         if (obj['comments'] === null) {
-            $("#comments-total").text('0 Comments');
+            $("#comments-total").text('0');
         } else {
-            $("#comments-total").text(obj['comments'].length + ' Comments');
+            $("#comments-total").text(obj['comments'].length);
         }
         obj['comments'].forEach(function (item, index) {
-            var ele = htmlCommentListElement(item['id'], item['author'], item['content']);
+            // console.log(item);
+            var ele = `<div>
+                <strong style="font-size: 16px;">${item['author']}</strong> <span class="gray"
+                    style="font-size: 13px;">${item['time']}</span>
+                <div class="card-panel black">
+                    <span class="grey-text">
+                        ${item['content']}
+                    </span>
+                </div>
+            </div>`;
             $("#comments-history").append(ele);
         });
-
     });
-}
-
-function popupNotificationMsg(msg) {
-    var x = document.getElementById("snackbar");
-    $("#snackbar").text(msg);
-    x.className = "show";
-    setTimeout(function () {
-        x.className = x.className.replace("show", "");
-    }, 2000);
-}
-
-function popupErrorMsg(msg) {
-    var x = document.getElementById("errorbar");
-    $("#errorbar").text(msg);
-    x.className = "show";
-    setTimeout(function () {
-        x.className = x.className.replace("show", "");
-    }, 2000);
-}
-
-function htmlCommentListElement(cid, author, content) {
-    var ele = $('<div/>', {
-        id: cid
-    });
-
-    ele.append(
-        $('<div/>', {
-            class: 'comment-author',
-            text: author + ' says:'
-        })
-    );
-    ele.append(
-        $('<div/>', {
-            class: 'comment',
-            text: content
-        })
-    );
-
-    ele.append('<hr style="height: 1px; border:none; color:#EDE3E1;background-color:#EDE3E1">');
-
-    return ele;
-}
-
-function htmlVideoListElement(vid, name, ctime) {
-    var ele = $('<a/>', {
-        href: '#'
-    });
-    ele.append(
-        $('<video/>', {
-            width: '320',
-            height: '240',
-            poster: '/statics/img/preloader.jpg',
-            controls: true
-            //href: '#'
-        })
-    );
-    ele.append(
-        $('<div/>', {
-            text: name
-        })
-    );
-    ele.append(
-        $('<div/>', {
-            text: ctime
-        })
-    );
-
-
-    var res = $('<div/>', {
-        id: vid,
-        class: 'video-item'
-    }).append(ele);
-
-    res.append(
-        $('<button/>', {
-            id: 'del-' + vid,
-            type: 'button',
-            class: 'del-video-button',
-            text: 'Delete'
-        })
-    );
-
-    res.append(
-        $('<hr>', {
-            size: '2'
-        }).css('border-color', 'grey')
-    );
-
-    return res;
 }
 
 // Async ajax methods
@@ -390,17 +351,20 @@ function registerUser(callback) {
                 callback(null, "internal error");
             }
         },
-        complete: function (xhr, textStatus) {
-            if (xhr.status >= 400) {
-                callback(null, "Error of Signin");
-                return;
-            }
-        }
+        // complete: function (xhr, textStatus) {
+        //     if (xhr.status >= 400) {
+        //         console.log("2");
+        //         callback(null, "Error of Signin");
+        //         return;
+        //     }
+        // }
     }).done(function (data, statusText, xhr) {
         if (xhr.status >= 400) {
+            // console.log("3");
             callback(null, "Error of register");
             return;
         }
+        // console.log("4");
 
         uname = username;
         callback(data, null);
@@ -588,7 +552,6 @@ function postComment(vid, content, callback) {
         'author_id': uid,
         'content': content
     }
-
 
     var dat = {
         'url': 'http://' + window.location.hostname + ':8000/videos/' + vid + '/comments',
