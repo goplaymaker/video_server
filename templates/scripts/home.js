@@ -82,7 +82,9 @@ $(document).ready(function () {
 
                 var msg = "Successfully deleted video: " + id;
                 Materialize.toast(msg, 3000, 'rounded')
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
             });
         });
 
@@ -244,7 +246,11 @@ function initPage(callback) {
                                     ${item['name']}
                                 </div>
                             </div>
-                        </li>`
+                            <div class="collapsible-body center-align red-text waves-effect waves-red btn-flat del-video-button" style="${index == 0 ? 'display: block;': ''}" id="del-${item['id']}">
+                                DELETE VIDEO
+                            </div>
+                        </li>`;
+                        
                 // if (index === 0) {
                 //     console.log(ele)
                 // }

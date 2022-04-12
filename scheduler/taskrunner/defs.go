@@ -4,7 +4,8 @@ const (
 	READY_TO_DISPATCH = "d"
 	READY_TO_EXECUTE  = "e"
 	CLOSE             = "c"
-	VIDEO_DIR         = "D:\\learn-area\\go-wp\\video_server\\videos\\"
+	VIDEO_DIR         = "./videos/"
+	//VIDEO_DIR         = "D:\\learn-area\\go-wp\\video_server\\videos\\"
 )
 
 // controlChan 控制管道
